@@ -1,0 +1,32 @@
+import unittest
+from counter.line_counter import LineCounter
+
+class TestLineCounter(unittest.TestCase):
+    def setUp(self):
+        self.counter = LineCounter()
+
+    def test_count_lines_of_code(self):
+        code = [
+            "def foo():",        # code
+            "    pass",          # code
+            "                    ",  # blank
+            "# This is a comment",  # comment
+            "'''",               # comment block start
+            "This is a block comment",
+            "'''",               # comment block end
+            "print('Hello, world!')",  # code
+        ]
+        self.assertEqual(self.counter.count_lines(code), 3)
+
+    def test_count_lines_of_code_with_no_code(self):
+        code = [
+            "    ",              # blank
+            "# Another comment", # comment
+            "'''",               # comment block start
+            "Still a block comment",
+            "'''",               # comment block end
+        ]
+        self.assertEqual(self.counter.count_lines(code), 0)
+
+if __name__ == '__main__':
+    unittest.main()
